@@ -18,12 +18,12 @@ val v = libs.versions.asoft.get()
 group = "tz.co.asoft"
 version = v
 
-//tasks.dokkaHtmlMultiModule {
-//    moduleName.set("Raven Client")
-//    outputDirectory.set(rootDir.resolve("docs"))
-//    moduleVersion.set(libs.versions.asoft.get())
-//    includes.from("ReadMe.md")
-//}
+tasks.dokkaHtmlMultiModule {
+    moduleName.set("Raven Client")
+    outputDirectory.set(rootDir.resolve("docs"))
+    moduleVersion.set(libs.versions.asoft.get())
+    includes.from("ReadMe.md")
+}
 
 allprojects {
     group = "tz.co.asoft"

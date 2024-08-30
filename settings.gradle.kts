@@ -23,3 +23,4 @@ rootProject.name = "raven"
 
 includeSubs("raven", ".", "core")
 includeSubs("raven-email", "email", "core", "test", "brevo", "markup")
+includeSubs("raven-sms", "sms", "core", "test", "beem", "kila")

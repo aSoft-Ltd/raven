@@ -17,7 +17,7 @@ import raven.SendEmailParams
 internal fun HttpRequestBuilder.headers(options: BrevoOptions) = headers {
     accept(ContentType.Application.Json)
     contentType(ContentType.Application.Json)
-    header("api-key", options.apiKey)
+    header("api-key", options.key)
 }
 
 internal fun SendEmailParams.toJsonObject() = buildJsonObject {

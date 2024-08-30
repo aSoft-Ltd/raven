@@ -12,9 +12,9 @@ inline fun BrevoEmailService(
 ): EmailService = BrevoEmailServiceImpl(options)
 
 inline fun BrevoEmailService(
-    apiKey: String,
+    key: String,
     warning: CreditWarning,
     http: HttpClient = BrevoOptions.DEFAULT_HTTP,
     codec: StringFormat = BrevoOptions.DEFAULT_CODEC,
     scope: CoroutineScope = BrevoOptions.DEFAULT_SCOPE
-): EmailService = BrevoEmailServiceImpl(BrevoOptions(apiKey, warning, http, codec, scope))
+): EmailService = BrevoEmailServiceImpl(BrevoOptions(key, warning, http, codec, scope))

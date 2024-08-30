@@ -1,7 +1,7 @@
 package raven
 
 class CreditWarning(
-    val to: String,
+    val to: List<String>,
     val limit: Int,
     val message: (count: Int) -> String
 )

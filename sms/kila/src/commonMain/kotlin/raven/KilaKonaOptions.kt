@@ -5,13 +5,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.serialization.StringFormat
 import kotlinx.serialization.json.Json
-import raven.internal.BrevoEndpoint
+import raven.internal.KilaKonaEndpoint
 
-class BrevoOptions(
-    /**
-     * The API key
-     */
+class KilaKonaOptions(
     val key: String,
+    val secret: String,
     val warning: CreditWarning,
     val http: HttpClient = DEFAULT_HTTP,
     val codec: StringFormat = DEFAULT_CODEC,
@@ -23,5 +21,5 @@ class BrevoOptions(
         val DEFAULT_SCOPE by lazy { CoroutineScope(SupervisorJob()) }
     }
 
-    internal val endpoint by lazy { BrevoEndpoint("https://api.brevo.com/v3") }
+    internal val endpoint by lazy { KilaKonaEndpoint("/") }
 }

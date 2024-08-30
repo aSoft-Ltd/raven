@@ -1,0 +1,11 @@
+curl --location 'https://messaging-service.co.tz/api/sms/v1/balance' \
+--header 'Authorization: Basic YW5keWxhbWF4OmFuZHltYW1zb24=' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+
+
+curl --location 'https://messaging-service.co.tz/api/sms/v1/test/text/single' \
+--header 'Authorization: Basic YW5keWxhbWF4OmFuZHltYW1zb24=' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--data '{"from":"N-SMS", "to":["255752748674"],  "text": "Your message", "reference": "aswqetgcv"}'

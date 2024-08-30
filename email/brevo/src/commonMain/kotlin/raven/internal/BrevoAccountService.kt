@@ -10,7 +10,7 @@ import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonPrimitive
 import raven.AccountService
 import raven.BrevoOptions
-import raven.BrevoServiceException
+import raven.BrevoEmailServiceException
 
 internal class BrevoAccountService(private val options: BrevoOptions) : AccountService {
     override fun credit(): Later<Int> = options.scope.later {
@@ -20,15 +20,15 @@ internal class BrevoAccountService(private val options: BrevoOptions) : AccountS
 
         val resp = options.codec.decodeFromString(JsonObject.serializer(), json)
 
-        val plans = resp["plan"]?.jsonArray ?: throw BrevoServiceException("Couldn't fetch account information")
+        val plans = resp["plan"]?.jsonArray ?: throw BrevoEmailServiceException("Couldn't fetch account information")
 
         val email = plans.filterIsInstance<JsonObject>().filterNot {
             it["type"]?.jsonPrimitive?.content == "sms"
-        }.firstOrNull() ?: throw BrevoServiceException(
+        }.firstOrNull() ?: throw BrevoEmailServiceException(
             message = "Couldn't obtain plan information, there is a change you moved from a free plan to a paid plan just check with Brevo"
         )
 
-        email["credits"]?.jsonPrimitive?.intOrNull ?: throw BrevoServiceException(
+        email["credits"]?.jsonPrimitive?.intOrNull ?: throw BrevoEmailServiceException(
             message = "Could not get credit information even though ${email["type"]?.jsonPrimitive?.content} plan was deduced"
         )
     }

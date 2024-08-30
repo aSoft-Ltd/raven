@@ -12,7 +12,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import raven.Address
 import raven.BrevoOptions
-import raven.BrevoServiceException
+import raven.BrevoEmailServiceException
 import raven.EmailContentType
 import raven.EmailSender
 import raven.SendEmailParams
@@ -30,19 +30,20 @@ internal class BrevoEmailSender(
 
     override fun send(params: SendEmailParams): Later<SendEmailParams> = options.scope.later {
         var credit = service.account.credit().await()
-        if (credit > 0 && credit <= options.warning.limit) {
+        val warning = options.warning
+        if (credit > warning.to.size && credit <= warning.limit && warning.to.isNotEmpty()) {
             val p = SendEmailParams(
                 from = params.from,
-                to = Address(email = options.warning.to),
-                subject = "Brevo email credit below ${options.warning.limit}",
-                body = options.warning.message(credit)
+                to = warning.to.map { Address(email = it) },
+                subject = "Brevo email credit below ${warning.limit}",
+                body = warning.message(credit)
             )
             execute(p).await()
             credit--
         }
 
         if (credit <= params.to.size) {
-            throw BrevoServiceException("Out of credit, hence we can't send ${params.to.size}")
+            throw BrevoEmailServiceException("Out of credit, hence we can't send ${params.to.size} emails on a $credit credit")
         }
         execute(params).await()
     }
@@ -55,7 +56,7 @@ internal class BrevoEmailSender(
         }.bodyAsText()
         val resp = options.codec.decodeFromString(serializer, json)
         if (resp["messageId"] == null) {
-            throw BrevoServiceException(resp["message"]?.jsonPrimitive?.content)
+            throw BrevoEmailServiceException(resp["message"]?.jsonPrimitive?.content)
         }
         params
     }
