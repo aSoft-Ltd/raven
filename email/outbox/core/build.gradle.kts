@@ -4,7 +4,7 @@ plugins {
     id("tz.co.asoft.library")
 }
 
-description = "An abstraction form sending emails"
+description = "An abstraction form sending email destinations and outbox"
 
 kotlin {
     if (Targeting.JVM) jvm { library() }
@@ -16,16 +16,13 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(projects.ravenCore)
+                api(projects.ravenEmailCore)
             }
         }
 
         val commonTest by getting {
             dependencies {
-                implementation(projects.ravenEmailConsole)
-                implementation(projects.ravenEmailLocal)
                 implementation(libs.kommander.coroutines)
-                implementation(libs.koncurrent.later.coroutines)
             }
         }
     }

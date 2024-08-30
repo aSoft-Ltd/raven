@@ -5,16 +5,17 @@ package raven
 import io.ktor.client.HttpClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.StringFormat
-import raven.internal.BrevoEmailServiceImpl
+import raven.internal.BrevoEmailAgentImpl
 
-inline fun BrevoEmailService(
+inline fun BrevoEmailAgent(
     options: BrevoOptions
-): EmailService = BrevoEmailServiceImpl(options)
+): EmailAgent = BrevoEmailAgentImpl(options)
 
-inline fun BrevoEmailService(
+inline fun BrevoEmailAgent(
     key: String,
     warning: CreditWarning,
+    outbox: EmailOutbox? = null,
     http: HttpClient = BrevoOptions.DEFAULT_HTTP,
     codec: StringFormat = BrevoOptions.DEFAULT_CODEC,
     scope: CoroutineScope = BrevoOptions.DEFAULT_SCOPE
-): EmailService = BrevoEmailServiceImpl(BrevoOptions(key, warning, http, codec, scope))
+): EmailAgent = BrevoEmailAgentImpl(BrevoOptions(key, warning, outbox, http, codec, scope))

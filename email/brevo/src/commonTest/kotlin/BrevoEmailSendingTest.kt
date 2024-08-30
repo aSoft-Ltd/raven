@@ -1,16 +1,16 @@
 import kotlin.test.Ignore
-import raven.AbstractEmailServiceTest
-import raven.BrevoEmailService
+import raven.AbstractEmailAgentTest
+import raven.BrevoEmailAgent
 import raven.CreditWarning
 import raven.bodyMarkup
 import raven.toHtmlString
 
 @Ignore
-class BrevoEmailSendingTest : AbstractEmailServiceTest(
-    BrevoEmailService(
+class BrevoEmailSendingTest : AbstractEmailAgentTest(
+    BrevoEmailAgent(
         key = "<api-key-goes-here>",
         warning = CreditWarning(
-            to = "andylamax@programmer.net",
+            to = listOf("andylamax@programmer.net"),
             limit = 290,
             message = { count ->
                 bodyMarkup {

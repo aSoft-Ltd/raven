@@ -3,12 +3,11 @@ package raven
 import kommander.expect
 import kommander.toBeGreaterThan
 import koncurrent.later.await
-import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlinx.coroutines.test.runTest
 
-abstract class AbstractEmailServiceTest(
-    val service: EmailService
+abstract class AbstractEmailAgentTest(
+    val agent: EmailAgent
 ) {
     @Test
     fun should_be_able_to_send_email() = runTest {
@@ -28,13 +27,12 @@ abstract class AbstractEmailServiceTest(
             subject = "Test Email 5",
             body = body.toHtmlString()
         )
-        service.sender.send(params).await()
+        agent.send(params).await()
     }
 
     @Test
     fun should_be_able_to_get_remaining_credit() = runTest {
-        val credit = service.account.credit().await()
-        println(credit)
+        val credit = agent.credit().await()
         expect(credit).toBeGreaterThan(0)
     }
 }

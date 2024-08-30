@@ -34,21 +34,6 @@ fun SendEmailParams(
 
 fun SendEmailParams(
     from: Address,
-    to: Address,
-    subject: String,
-    body: EmailTemplate,
-    attachments: List<EmailAttachment<Any>> = emptyList()
-) = SendEmailTemplateParams(
-    from = from,
-    to = listOf(to),
-    subject = subject,
-    body = body,
-    cc = emptyList(),
-    bcc = emptyList(),
-    attachments = attachments
-)
-fun SendEmailParams(
-    from: Address,
     to: List<Address>,
     subject: String,
     body: String,
