@@ -7,14 +7,16 @@ import kotlin.test.Test
 import kotlinx.coroutines.test.runTest
 
 abstract class AbstractSmsServiceTest(
-    val service: SmsService
+    val service: SmsService,
+    val sender: String
 ) {
     @Test
     fun should_be_able_to_send_sms() = runTest {
         val params = SendSmsParams(
-            from = "Sender",
-            to = "+255752748674",
-            body = "Hello Anderson, this is a test"
+            from = sender,
+//            to = "+255752748674",
+            to = "+255752270749",
+            body = "Hello Rachel, congratulations on your schools performance"
         )
         service.sender.send(params).await()
     }

@@ -6,15 +6,16 @@ import raven.CreditWarning
 class KilaKonaSmsServiceTest : AbstractSmsServiceTest(
     service = KilaKonaSmsService(
         options = KilaKonaOptions(
-            api = "",
             key = "",
+            secret = "",
             warning = CreditWarning(
-                to = "+255752748674",
-                limit = 5,
+                to = listOf(),
+                limit = 700,
                 message = { count ->
-                    "You have $count messeges left in your kilakona account. Consider topping up"
+                    "You have $count messages left in your kilakona account. Consider topping up"
                 }
             )
         )
-    )
+    ),
+    sender = "KILAKONA"
 )

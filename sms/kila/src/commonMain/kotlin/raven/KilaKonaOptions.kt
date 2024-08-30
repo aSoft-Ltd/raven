@@ -21,5 +21,5 @@ class KilaKonaOptions(
         val DEFAULT_SCOPE by lazy { CoroutineScope(SupervisorJob()) }
     }
 
-    internal val endpoint by lazy { KilaKonaEndpoint("/") }
+    internal val endpoint by lazy { KilaKonaEndpoint("https://messaging.kilakona.co.tz") }
 }

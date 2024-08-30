@@ -1,11 +1,15 @@
 package raven.internal
 
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.client.statement.bodyAsText
 import koncurrent.Later
 import koncurrent.TODOLater
 import koncurrent.later
 import koncurrent.later.await
 import koncurrent.later.catch
 import koncurrent.later.then
+import kotlinx.serialization.json.JsonObject
 import raven.KilaKonaOptions
 import raven.KilaKonaSmsServiceException
 import raven.SendSmsParams
@@ -34,7 +38,15 @@ internal class KilaKonaSmsSenderImpl(
         execute(params).await()
     }
 
-    private fun execute(params: SendSmsParams): Later<SendSmsParams> = TODOLater()
+    private fun execute(params: SendSmsParams): Later<SendSmsParams> = options.scope.later {
+        val serializer = JsonObject.serializer()
+        val json = options.http.post(options.endpoint.sms) {
+            headers(options)
+            setBody(options.codec.encodeToString(serializer, params.toJsonObject()))
+        }.bodyAsText()
+        options.codec.decodeFromString(serializer, json).ensureSuccess()
+        params
+    }
 
     override fun canSend(count: Int) = service.account.credit().then { it > count }.catch { false }
 }
