@@ -1,2 +1,2 @@
-# raven
-A kotlin multiplatform email &amp; sms messaging solutions
+# raven-core
+A kotlin multiplatform library abstracting sending emails
