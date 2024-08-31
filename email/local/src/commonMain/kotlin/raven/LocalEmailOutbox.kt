@@ -4,7 +4,7 @@ import koncurrent.Later
 import koncurrent.later.then
 import koncurrent.toLater
 
-class LocalEmailOutbox(private val capacity: Int = 10) : EmailOutbox {
+class LocalEmailOutbox(private val capacity: Int = 10) : Outbox<SendEmailParams> {
 
     private val messages = mutableListOf<SendEmailParams>()
 

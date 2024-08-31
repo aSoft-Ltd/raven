@@ -1,6 +1,6 @@
 package raven
 
 class ConsoleEmailAgentOptions(
-    val outbox: EmailOutbox? = null,
+    val outbox: Outbox<SendEmailParams>? = null,
     val formatter: PrettyConsoleEmailFormatter = PrettyConsoleEmailFormatter()
 )

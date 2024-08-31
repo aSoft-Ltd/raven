@@ -16,6 +16,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.ravenEmailCore)
+            api(projects.ravenOutboxCore)
             implementation(libs.koncurrent.later.coroutines)
             implementation(kotlinx.serialization.json)
             implementation(ktor.client.core)

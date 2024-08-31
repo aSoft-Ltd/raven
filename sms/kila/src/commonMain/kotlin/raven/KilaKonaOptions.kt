@@ -11,6 +11,7 @@ class KilaKonaOptions(
     val key: String,
     val secret: String,
     val warning: CreditWarning,
+    val outbox: SmsOutbox? = null,
     val http: HttpClient = DEFAULT_HTTP,
     val codec: StringFormat = DEFAULT_CODEC,
     val scope: CoroutineScope = DEFAULT_SCOPE

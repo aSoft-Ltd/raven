@@ -79,6 +79,6 @@ internal class BrevoEmailAgentImpl(
         if (resp["messageId"] == null) {
             throw BrevoEmailAgentException(resp["message"]?.jsonPrimitive?.content)
         }
-        params
+        options.outbox?.store(params)?.await() ?: params
     }
 }

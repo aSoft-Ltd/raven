@@ -13,7 +13,7 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.put
 import raven.KilaKonaOptions
-import raven.KilaKonaSmsServiceException
+import raven.KilaKonaSmsAgentException
 import raven.SendSmsParams
 
 internal fun HttpRequestBuilder.headers(options: KilaKonaOptions) = headers {
@@ -34,10 +34,10 @@ internal fun JsonObject.ensureSuccess() : JsonObject {
     val success = this["success"]?.jsonPrimitive?.booleanOrNull == true
     if (!success) {
         val message = this["message"]?.jsonPrimitive?.content
-        throw KilaKonaSmsServiceException(message)
+        throw KilaKonaSmsAgentException(message)
     }
 
-    return this["data"]?.jsonObject ?: throw KilaKonaSmsServiceException(
+    return this["data"]?.jsonObject ?: throw KilaKonaSmsAgentException(
         message = "Couldn't retrieve data information even though the request was successful"
     )
 }

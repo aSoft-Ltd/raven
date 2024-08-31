@@ -9,6 +9,7 @@ import raven.internal.BeemEndpoint
 
 class BeemOptions(
     val warning: CreditWarning,
+    val outbox: SmsOutbox? = null,
     val http: HttpClient = DEFAULT_HTTP,
     val codec: StringFormat = DEFAULT_CODEC,
     val scope: CoroutineScope = DEFAULT_SCOPE

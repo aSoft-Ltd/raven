@@ -6,17 +6,18 @@ import kotlinx.serialization.StringFormat
 import raven.KilaKonaOptions.Companion.DEFAULT_CODEC
 import raven.KilaKonaOptions.Companion.DEFAULT_HTTP
 import raven.KilaKonaOptions.Companion.DEFAULT_SCOPE
-import raven.internal.KilaKonaSmsServiceImpl
+import raven.internal.KilaKonaSmsAgentImpl
 
-fun KilaKonaSmsService(
+fun KilaKonaSmsAgent(
     options: KilaKonaOptions
-): SmsService = KilaKonaSmsServiceImpl(options)
+): SmsAgent = KilaKonaSmsAgentImpl(options)
 
-fun KilaKonaSmsService(
+fun KilaKonaSmsAgent(
     key: String,
     secret: String,
     warning: CreditWarning,
+    outbox: SmsOutbox? = null,
     http: HttpClient = DEFAULT_HTTP,
     codec: StringFormat = DEFAULT_CODEC,
     scope: CoroutineScope = DEFAULT_SCOPE
-): SmsService = KilaKonaSmsServiceImpl(KilaKonaOptions(key, secret, warning, http, codec, scope))
+): SmsAgent = KilaKonaSmsAgentImpl(KilaKonaOptions(key, secret, warning, outbox, http, codec, scope))

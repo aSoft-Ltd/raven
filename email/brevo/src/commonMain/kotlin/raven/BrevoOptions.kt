@@ -24,5 +24,5 @@ class BrevoOptions(
         val DEFAULT_SCOPE by lazy { CoroutineScope(SupervisorJob()) }
     }
 
-    internal val endpoint by lazy { BrevoEndpoint("https://api.brevo.com/v3") }
+    internal val endpoint by lazy { BrevoEndpoint("https://api.brevo.com") }
 }
