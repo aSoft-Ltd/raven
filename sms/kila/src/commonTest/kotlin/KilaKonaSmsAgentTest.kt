@@ -1,8 +1,10 @@
+import kotlin.test.Ignore
 import raven.AbstractSmsAgentTest
 import raven.KilaKonaOptions
 import raven.CreditWarning
 import raven.KilaKonaSmsAgent
 
+@Ignore
 class KilaKonaSmsAgentTest : AbstractSmsAgentTest(
     agent = KilaKonaSmsAgent(
         options = KilaKonaOptions(

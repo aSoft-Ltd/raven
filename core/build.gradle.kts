@@ -11,7 +11,6 @@ kotlin {
     if (Targeting.JS) js(IR) { library() }
     if (Targeting.OSX) osxTargets()
     if (Targeting.LINUX) linuxTargets()
-    if (Targeting.MINGW) mingwTargets()
 
     sourceSets {
         val commonMain by getting {

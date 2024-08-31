@@ -10,11 +10,12 @@ kotlin {
     if (Targeting.JVM) jvm { library() }
     if (Targeting.OSX) osxTargets()
     if (Targeting.LINUX) linuxTargets()
-    if (Targeting.MINGW) mingwTargets()
+//    if (Targeting.MINGW) mingwTargets()
 
     sourceSets {
         commonMain.dependencies {
             api(projects.ravenOutboxCore)
+            api(libs.koncurrent.later.coroutines)
             api(ktor.server.core)
         }
 

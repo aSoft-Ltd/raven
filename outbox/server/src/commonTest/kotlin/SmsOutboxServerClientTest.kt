@@ -3,7 +3,7 @@ import kommander.expect
 import kotlin.test.Test
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.future.await
+import koncurrent.later.await
 import kotlinx.serialization.json.Json
 import raven.ConsoleSmsAgent
 import raven.ConsoleSmsAgentOptions

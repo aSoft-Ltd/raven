@@ -16,7 +16,7 @@ fun KilaKonaSmsAgent(
     key: String,
     secret: String,
     warning: CreditWarning,
-    outbox: SmsOutbox? = null,
+    outbox: Outbox<SendSmsParams>? = null,
     http: HttpClient = DEFAULT_HTTP,
     codec: StringFormat = DEFAULT_CODEC,
     scope: CoroutineScope = DEFAULT_SCOPE

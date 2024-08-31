@@ -13,7 +13,7 @@ class BrevoOptions(
      */
     val key: String,
     val warning: CreditWarning,
-    val outbox: EmailOutbox?,
+    val outbox: Outbox<SendEmailParams>? = null,
     val http: HttpClient = DEFAULT_HTTP,
     val codec: StringFormat = DEFAULT_CODEC,
     val scope: CoroutineScope = DEFAULT_SCOPE

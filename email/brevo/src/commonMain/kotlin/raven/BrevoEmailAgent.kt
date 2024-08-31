@@ -14,7 +14,7 @@ inline fun BrevoEmailAgent(
 inline fun BrevoEmailAgent(
     key: String,
     warning: CreditWarning,
-    outbox: EmailOutbox? = null,
+    outbox: Outbox<SendEmailParams>? = null,
     http: HttpClient = BrevoOptions.DEFAULT_HTTP,
     codec: StringFormat = BrevoOptions.DEFAULT_CODEC,
     scope: CoroutineScope = BrevoOptions.DEFAULT_SCOPE

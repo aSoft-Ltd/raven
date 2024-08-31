@@ -12,7 +12,7 @@ kotlin {
     if (Targeting.OSX) osxTargets()
     if (Targeting.NDK) ndkTargets()
     if (Targeting.LINUX) linuxTargets()
-    if (Targeting.MINGW) mingwTargets()
+// if (Targeting.MINGW) mingwTargets()
 
     sourceSets {
         commonMain.dependencies {

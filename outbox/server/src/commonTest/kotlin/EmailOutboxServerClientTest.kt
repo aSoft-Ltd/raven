@@ -1,24 +1,19 @@
 import io.ktor.server.testing.testApplication
 import kommander.expect
+import koncurrent.later.await
 import kotlin.test.Test
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.future.await
 import kotlinx.serialization.json.Json
 import raven.ConsoleEmailAgent
 import raven.ConsoleEmailAgentOptions
-import raven.ConsoleSmsAgent
-import raven.ConsoleSmsAgentOptions
 import raven.LocalEmailOutbox
-import raven.LocalSmsOutbox
 import raven.OutboxController
 import raven.OutboxDestination
 import raven.RemoteOutbox
 import raven.RemoteOutboxOptions
 import raven.SendEmailParams
-import raven.SendSmsParams
 import raven.buildEmailService
-import raven.buildSmsService
 import raven.installOutbox
 
 class EmailOutboxServerClientTest {

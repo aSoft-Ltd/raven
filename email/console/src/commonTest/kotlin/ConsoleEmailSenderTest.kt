@@ -5,11 +5,12 @@ import raven.MockAttachment
 import kotlin.test.Test
 import raven.Address
 import raven.ConsoleEmailAgent
+import raven.ConsoleEmailAgentOptions
 import raven.PrettyConsoleEmailFormatter
 import raven.SendEmailParams
 
 class ConsoleEmailSenderTest {
-    val sender = ConsoleEmailAgent(PrettyConsoleEmailFormatter())
+    val sender = ConsoleEmailAgent(ConsoleEmailAgentOptions(formatter = PrettyConsoleEmailFormatter()))
 
     @Test
     fun should_easily_send_an_email() = runTest {
