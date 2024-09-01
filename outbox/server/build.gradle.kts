@@ -23,10 +23,11 @@ kotlin {
             implementation(libs.kommander.coroutines)
             implementation(ktor.server.test.host)
             implementation(projects.ravenOutboxClient)
-            implementation(projects.ravenSmsLocal)
+            implementation(projects.ravenOutboxLocal)
+
             implementation(projects.ravenSmsConsole)
-            implementation(projects.ravenEmailLocal)
             implementation(projects.ravenEmailConsole)
+
             implementation(kotlinx.serialization.json)
         }
 

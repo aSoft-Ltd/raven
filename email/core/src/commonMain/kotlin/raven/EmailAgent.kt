@@ -1,9 +1,5 @@
 package raven
 
-import koncurrent.Later
-
-interface EmailAgent : Sender {
+interface EmailAgent : Sender<SendEmailParams> {
     fun supports(body: EmailContentType): Boolean
-
-    fun send(params: SendEmailParams): Later<SendEmailParams>
 }

@@ -17,6 +17,7 @@ kotlin {
         commonMain.dependencies {
             api(projects.ravenSmsCore)
             api(projects.ravenOutboxCore)
+            implementation(projects.ravenConfig)
             implementation(libs.koncurrent.later.coroutines)
             implementation(kotlinx.serialization.json)
             implementation(ktor.client.core)

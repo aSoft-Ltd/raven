@@ -12,5 +12,5 @@ class ConsoleEmailAgent(private val options: ConsoleEmailAgentOptions = ConsoleE
         println(options.formatter.format(params))
     }
 
-    override fun toString(): String = "ConsoleEmailSender"
+    override fun toString(): String = "ConsoleEmailAgent"
 }

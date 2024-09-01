@@ -14,8 +14,18 @@ kotlin {
 // if (Targeting.MINGW) mingwTargets()
 
     sourceSets {
-        commonMain.dependencies {
-            api(libs.koncurrent.later.core)
+        val commonMain by getting {
+            dependencies {
+                api(projects.ravenConfig)
+                api(projects.ravenEmailCore)
+                api(projects.ravenOutboxLocal)
+            }
+        }
+
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.kommander.coroutines)
+            }
         }
     }
 }

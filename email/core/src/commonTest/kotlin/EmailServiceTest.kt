@@ -4,18 +4,16 @@ import kotlin.test.Test
 import kotlinx.coroutines.test.runTest
 import raven.ConsoleEmailAgent
 import raven.ConsoleEmailAgentOptions
-import raven.LocalEmailAgent
 import raven.LocalEmailOutbox
 import raven.SendEmailParams
 import raven.buildEmailService
 
 class EmailServiceTest {
 
-    private val outbox = LocalEmailOutbox(capacity = 10)
+    private val outbox = LocalEmailOutbox()
 
     private val service = buildEmailService {
         add(ConsoleEmailAgent(ConsoleEmailAgentOptions()))
-        add(LocalEmailAgent(outbox))
     }
 
     @Test

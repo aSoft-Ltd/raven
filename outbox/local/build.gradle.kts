@@ -15,19 +15,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(projects.ravenSmsCore)
             api(projects.ravenOutboxCore)
-            implementation(libs.koncurrent.later.coroutines)
+            implementation(projects.ravenConfig)
             implementation(kotlinx.serialization.json)
-            implementation(ktor.client.core)
-        }
-
-        commonTest.dependencies {
-            implementation(projects.ravenSmsTest)
-        }
-
-        jvmTest.dependencies {
-            implementation(ktor.client.cio)
         }
     }
 }

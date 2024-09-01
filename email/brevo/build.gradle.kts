@@ -11,15 +11,15 @@ kotlin {
     if (Targeting.JS) js(IR) { library() }
     if (Targeting.OSX) osxTargets()
     if (Targeting.LINUX) linuxTargets()
-// if (Targeting.MINGW) mingwTargets()
 
     sourceSets {
         commonMain.dependencies {
             api(projects.ravenEmailCore)
             api(projects.ravenOutboxCore)
+            api(kotlinx.serialization.json)
+            api(ktor.client.core)
             implementation(libs.koncurrent.later.coroutines)
-            implementation(kotlinx.serialization.json)
-            implementation(ktor.client.core)
+            implementation(projects.ravenConfig)
         }
 
         commonTest.dependencies {

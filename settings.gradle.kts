@@ -21,7 +21,7 @@ listOf(
 
 rootProject.name = "raven"
 
-includeSubs("raven", ".", "core")
-includeSubs("raven-outbox", "outbox", "core", "server", "client")
-includeSubs("raven-email", "email", "core", "test", "brevo", "local", "console", "markup")
-includeSubs("raven-sms", "sms", "core", "test", "local", "console", "beem", "kila")
+includeSubs("raven", ".", "core", "config")
+includeSubs("raven-outbox", "outbox", "core", "server", "client", "local")
+includeSubs("raven-email", "email", "core", "test", "brevo", "console", "markup", "config")
+includeSubs("raven-sms", "sms", "core", "test", "console", "beem", "kila", "config")
