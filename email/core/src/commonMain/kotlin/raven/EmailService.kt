@@ -4,7 +4,7 @@ import koncurrent.FailedLater
 import koncurrent.Later
 
 class EmailService(
-    private val agents: List<Sender<SendEmailParams>>
+    private val agents: Collection<Sender<SendEmailParams>>
 ) : Service<SendEmailParams> {
     override fun send(params: SendEmailParams): Later<SendEmailParams> {
         val main = agents.firstOrNull() ?: return FailedLater("Main EmailAgent not found in email service")

@@ -18,21 +18,5 @@ kotlin {
             api(libs.koncurrent.later.coroutines)
             api(ktor.server.core)
         }
-
-        commonTest.dependencies {
-            implementation(libs.kommander.coroutines)
-            implementation(ktor.server.test.host)
-            implementation(projects.ravenOutboxClient)
-            implementation(projects.ravenOutboxLocal)
-
-            implementation(projects.ravenSmsConsole)
-            implementation(projects.ravenEmailConsole)
-
-            implementation(kotlinx.serialization.json)
-        }
-
-        jvmMain.dependencies {
-            implementation(ktor.client.cio)
-        }
     }
 }

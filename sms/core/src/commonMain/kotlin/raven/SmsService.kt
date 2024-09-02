@@ -4,7 +4,7 @@ import koncurrent.FailedLater
 import koncurrent.Later
 
 class SmsService(
-    private val agents: List<Sender<SendSmsParams>>
+    private val agents: Collection<Sender<SendSmsParams>>
 ) : Service<SendSmsParams> {
     override fun send(params: SendSmsParams): Later<SendSmsParams> {
         val main = agents.firstOrNull() ?: return FailedLater("Main SmsAgent not found in sms service")

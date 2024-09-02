@@ -10,7 +10,8 @@ import io.ktor.server.util.getValue
 import koncurrent.later.await
 import kotlinx.serialization.builtins.ListSerializer
 
-fun <P> Routing.installOutbox(controller: OutboxController<P>) {
+fun <P> Routing.installOutbox(controller: OutboxController<P>?) {
+    if (controller == null) return
     post(controller.endpoint.store()) {
         val json = call.receiveText()
         val params = controller.codec.decodeFromString(controller.serializer, json)
