@@ -18,7 +18,7 @@ fun AgentConfiguration<SendSmsParams>.toKilaKonaAgentOptions(
     warning: (count: Int) -> String
 ) = KilaKonaOptions(
     key = params["key"] ?: throw KilaKonaSmsAgentException("`key` is missing: KilaKona api key must be set in the key option of kilakona agent configuration"),
-    secret = params["secret"] ?: throw KilaKonaSmsAgentException("`secret` is missing: KilaKona secret must be set in the key option of kilakona agent configuration"),
+    secret = params["secret"] ?: throw KilaKonaSmsAgentException("`secret` is missing: KilaKona secret must be set in the secret option of kilakona agent configuration"),
     warning = toCreditWarning(agent = "kilakona", warning),
     http = http,
     outbox = outbox,

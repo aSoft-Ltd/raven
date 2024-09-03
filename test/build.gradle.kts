@@ -24,6 +24,7 @@ kotlin {
 
             implementation(projects.ravenSmsConfig)
             implementation(projects.ravenSmsConsole)
+            implementation(projects.ravenSmsKila)
 
             implementation(kotlinx.serialization.json)
             implementation(kotlinx.serialization.toml)

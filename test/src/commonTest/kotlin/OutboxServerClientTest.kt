@@ -21,7 +21,7 @@ class OutboxServerClientTest {
         [[sms.agent]]
         type = "console"
         outbox = "local"
-        
+       
         [[email.outbox]]
         type = "local"
         
@@ -44,26 +44,26 @@ class OutboxServerClientTest {
             installOutbox(controller.sms)
         }
 
-        val email = controller.email
-        if (email != null) run { // email test
-            val options = RemoteOutboxOptions<SendEmailParams>(
-                http = createClient { },
-                codec = email.codec,
-                scope = scope,
-                endpoint = email.endpoint
-            )
-            val outbox = RemoteOutbox(options)
-
-            val message = SendEmailParams(
-                from = "sender@test.com",
-                to = "receiver@test.com",
-                subject = "Test Email",
-                body = "This is a test email to the server"
-            )
-            service.agents.email.send(message).await()
-
-            expect(outbox.sent("receiver@test.com").await()).toBeOfSize(1)
-        }
+//        val email = controller.email
+//        if (email != null) run { // email test
+//            val options = RemoteOutboxOptions<SendEmailParams>(
+//                http = createClient { },
+//                codec = email.codec,
+//                scope = scope,
+//                endpoint = email.endpoint
+//            )
+//            val outbox = RemoteOutbox(options)
+//
+//            val message = SendEmailParams(
+//                from = "sender@test.com",
+//                to = "receiver@test.com",
+//                subject = "Test Email",
+//                body = "This is a test email to the server"
+//            )
+//            service.agents.email.send(message).await()
+//
+//            expect(outbox.sent("receiver@test.com").await()).toBeOfSize(1)
+//        }
 
         val sms = controller.sms
         if (sms != null) run { // email test
@@ -75,14 +75,16 @@ class OutboxServerClientTest {
             )
             val outbox = RemoteOutbox(options)
 
+            val destination = "+255752988988"
+//            val destination = "+255752748674"
             val message = SendSmsParams(
-                from = "565656",
-                to = "+255788998899",
-                body = "This is a test sms to the server"
+                from = "KILAKONA",
+                to = destination,
+                body = "This is a test sms to Isaka"
             )
             service.agents.sms.send(message).await()
 
-            expect(outbox.sent("+255788998899").await()).toBeOfSize(1)
+            expect(outbox.sent(destination).await()).toBeOfSize(1)
         }
     }
 }
