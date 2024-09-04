@@ -8,6 +8,7 @@ description = "An abstraction form sending email destinations and outbox"
 
 kotlin {
     if (Targeting.JVM) jvm { library() }
+    if (Targeting.WASM) wasmJs { library() }
     if (Targeting.JS) js(IR) { library() }
     if (Targeting.OSX) osxTargets()
     if (Targeting.LINUX) linuxTargets()
