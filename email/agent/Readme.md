@@ -4,11 +4,13 @@ These are third party agents used to send and receive emails
 
 | Agent    | url images | inline images | attachments |
 |----------|:----------:|:-------------:|:-----------:|
-| brevo    |     no     |      no       |     no      |
+| brevo    |  partial   |      no       |     no      |
 | console  |     no     |      no       |     no      |
-| mailgun  |    yes     |      no       |     no      |
+| mailgun  |    yes     |      no       |   partial   |
 | postmark |    yes     |      yes      |     yes     |
 
+Key
+- partial: Support is on few clients
 
 ## Gradle Setup
 ```groovy
