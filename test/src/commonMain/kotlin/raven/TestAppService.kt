@@ -1,8 +1,6 @@
 package raven
 
-import raven.EmailService
 import raven.Outbox
-import raven.SendEmailParams
 import raven.SendSmsParams
 import raven.SmsService
 

@@ -8,7 +8,7 @@ class Html(
 )
 
 class HtmlScope {
-    internal var head = Head(mutableListOf())
+    internal var head = Head(mutableListOf(), mutableListOf())
     internal var body = Body(mutableMapOf(), mutableListOf())
     fun head(builder: HeadScope.() -> Unit): Head {
         val scope = HeadScope(head)

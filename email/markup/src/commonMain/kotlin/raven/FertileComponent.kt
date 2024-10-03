@@ -50,10 +50,10 @@ interface ComponentScope<out C : FertileComponent> {
         parent.children.add(i)
     }
 
-    fun a(href: String, target: String = "_blank", style: Styles = css(), builder: ComponentScope<Link>.() -> Unit) {
+    fun a(href: String, target: String = "_blank", style: Styles = css(), builder: ComponentScope<A>.() -> Unit) {
         val props = mapOf("href" to href, "target" to target)
         val default = css().text(decoration = "none")
-        val l = Link(props, (default + style).definitions, mutableListOf())
+        val l = A(props, (default + style).definitions, mutableListOf())
         parent.children.add(scopeOf(l).also(builder).parent)
     }
 

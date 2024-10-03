@@ -7,7 +7,6 @@ import kotlinx.coroutines.SupervisorJob
 import net.peanuuutz.tomlkt.Toml
 import raven.RemoteOutbox
 import raven.RemoteOutboxOptions
-import raven.SendEmailParams
 import raven.SendSmsParams
 import raven.TestAppConfiguration
 import raven.installOutbox

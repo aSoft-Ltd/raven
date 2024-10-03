@@ -22,10 +22,14 @@ class Styles(val definitions: Map<String, String>) {
     fun outline(value: String) = put("outline", value)
 
     fun border(
-        size: String = "",
+        width: String = "",
+        style: String = "",
+        color: String = "",
         radius: String = ""
     ) = this
-        .put("border", size)
+        .put("border-width", width)
+        .put("border-style", style)
+        .put("border-color", color)
         .put("border-radius", radius)
 
     fun text(

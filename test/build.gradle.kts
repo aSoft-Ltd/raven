@@ -19,8 +19,8 @@ kotlin {
             implementation(projects.ravenOutboxLocal)
             implementation(libs.koncurrent.later.coroutines)
 
-            implementation(projects.ravenEmailConfig)
-            implementation(projects.ravenEmailConsole)
+            implementation(projects.ravenEmailAgentConfig)
+            implementation(projects.ravenEmailAgentConsole)
 
             implementation(projects.ravenSmsConfig)
             implementation(projects.ravenSmsConsole)

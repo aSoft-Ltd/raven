@@ -27,7 +27,6 @@ fun bodyMarkup(style: Styles = css(), builder: ComponentScope<Body>.() -> Unit) 
             contentType()
             viewport()
         }
-
         body(style) { builder() }
     }
 }

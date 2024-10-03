@@ -8,7 +8,7 @@ import raven.Component
 import raven.Container
 import raven.FertileComponent
 import raven.Image
-import raven.Link
+import raven.A
 import raven.Paragraph
 import raven.Row
 import raven.SterileComponent
@@ -25,7 +25,7 @@ private fun FertileComponent.toHtmlString(tab: String, level: Int): String = whe
     is Container -> toHtmlString(tab, level)
     is Row -> toHtmlString(tab, level)
     is Column -> toHtmlString(tab, level)
-    is Link -> toHtmlString(tab, level)
+    is A -> toHtmlString(tab, level)
     is Button -> toHtmlString(tab, level)
 }
 
@@ -36,7 +36,7 @@ private fun Button.toHtmlString(tab: String, level: Int) = buildString {
     append("$pad</a>")
 }
 
-private fun Link.toHtmlString(tab: String, level: Int) = buildString {
+private fun A.toHtmlString(tab: String, level: Int) = buildString {
     val pad = tab.repeat(level)
     appendLine("$pad<a${styles.css}${props.inline}>")
     children.forEach { appendLine(it.toHtmlString(tab, level + 1)) }

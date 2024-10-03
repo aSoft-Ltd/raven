@@ -7,7 +7,6 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.json.Json
 import raven.MessageConfiguration
-import raven.SendEmailParams
 import raven.SendSmsParams
 import raven.toConsoleEmailAgent
 import raven.toConsoleSmsAgent
