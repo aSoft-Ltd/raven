@@ -14,8 +14,8 @@ abstract class AbstractSmsAgentTest(
     fun should_be_able_to_send_sms() = runTest {
         val params = SendSmsParams(
             from = sender,
-//            to = "+255752748674",
-            to = "+255752270749",
+            to = "+255752748674",
+//            to = "+255752270749",
             body = "Hello Rachel, congratulations on your schools performance"
         )
         agent.send(params).await()
