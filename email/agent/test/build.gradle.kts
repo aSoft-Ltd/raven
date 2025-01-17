@@ -20,10 +20,18 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+//                api(kotlin("test"))
                 api(projects.ravenEmailAgentCore)
                 api(projects.ravenEmailMarkup)
                 api(libs.kommander.coroutines)
                 api(libs.koncurrent.later.coroutines)
+            }
+        }
+
+        val wasmJsTest by getting {
+            dependencies {
+                implementation(npm("webpack","*"))
+                implementation(npm("sourcemap","*"))
             }
         }
     }

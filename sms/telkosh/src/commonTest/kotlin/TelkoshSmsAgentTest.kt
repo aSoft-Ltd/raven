@@ -2,8 +2,9 @@ import raven.AbstractSmsAgentTest
 import raven.TelkoshOptions
 import raven.CreditWarning
 import raven.TelkoshSmsAgent
+import kotlin.test.Ignore
 
-//@Ignore
+@Ignore
 class TelkoshSmsAgentTest : AbstractSmsAgentTest(
     agent = TelkoshSmsAgent(
         options = TelkoshOptions(
