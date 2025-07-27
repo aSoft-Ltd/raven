@@ -2,7 +2,7 @@ package raven
 
 import io.ktor.server.request.receiveText
 import io.ktor.server.response.respondText
-import io.ktor.server.routing.Routing
+import io.ktor.server.routing.Route
 import io.ktor.server.routing.delete
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
@@ -10,7 +10,7 @@ import io.ktor.server.util.getValue
 import koncurrent.later.await
 import kotlinx.serialization.builtins.ListSerializer
 
-fun <P> Routing.installOutbox(controller: OutboxController<P>?) {
+fun <P> Route.installOutbox(controller: OutboxController<P>?) {
     if (controller == null) return
     post(controller.endpoint.store()) {
         val json = call.receiveText()

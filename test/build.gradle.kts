@@ -36,8 +36,9 @@ kotlin {
             implementation(ktor.server.test.host)
         }
 
-        jvmMain.dependencies {
+        if(Targeting.JVM) jvmMain.dependencies {
             implementation(ktor.client.cio)
+            api(kotlin("test-junit5"))
         }
     }
 }

@@ -15,12 +15,14 @@ kotlin {
 // if (Targeting.MINGW) mingwTargets()
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                api(projects.ravenSmsCore)
-                api(libs.kommander.coroutines)
-                api(libs.koncurrent.later.coroutines)
-            }
+        commonMain.dependencies {
+            api(projects.ravenSmsCore)
+            api(libs.kommander.coroutines)
+            api(libs.koncurrent.later.coroutines)
+        }
+
+        if (Targeting.JVM) jvmMain.dependencies {
+            api(kotlin("test-junit5"))
         }
     }
 }
