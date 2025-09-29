@@ -1,7 +1,7 @@
 package raven
 
 import koncurrent.Later
-import koncurrent.later.then
+import koncurrent.awaited.then
 import koncurrent.toLater
 
 class LocalOutbox<P>(

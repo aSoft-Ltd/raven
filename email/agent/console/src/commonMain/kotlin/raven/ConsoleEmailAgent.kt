@@ -1,7 +1,7 @@
 package raven
 
 import koncurrent.Later
-import koncurrent.later.finally
+import koncurrent.awaited.finally
 import koncurrent.toLater
 
 class ConsoleEmailAgent(private val options: ConsoleEmailAgentOptions = ConsoleEmailAgentOptions()) : EmailAgent {

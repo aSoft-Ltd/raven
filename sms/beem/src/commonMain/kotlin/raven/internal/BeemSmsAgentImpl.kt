@@ -4,8 +4,8 @@ import koncurrent.Later
 import koncurrent.TODOLater
 import koncurrent.later
 import koncurrent.later.await
-import koncurrent.later.catch
-import koncurrent.later.then
+import koncurrent.awaited.catch
+import koncurrent.awaited.then
 import raven.BeemOptions
 import raven.BeemSmsServiceException
 import raven.SendSmsParams

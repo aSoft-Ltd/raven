@@ -9,8 +9,8 @@ import io.ktor.util.encodeBase64
 import koncurrent.Later
 import koncurrent.later
 import koncurrent.later.await
-import koncurrent.later.catch
-import koncurrent.later.then
+import koncurrent.awaited.catch
+import koncurrent.awaited.then
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonPrimitive
