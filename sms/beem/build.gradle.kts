@@ -24,6 +24,7 @@ kotlin {
 
         commonTest.dependencies {
             implementation(projects.ravenSmsTest)
+            implementation(kotlin("test"))
         }
 
         jvmTest.dependencies {

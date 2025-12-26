@@ -18,6 +18,7 @@ kotlin {
         commonMain.dependencies {
             api(projects.ravenSmsCore)
             api(libs.kommander.coroutines)
+            api(kotlin("test"))
         }
 
         if (Targeting.JVM) jvmMain.dependencies {
