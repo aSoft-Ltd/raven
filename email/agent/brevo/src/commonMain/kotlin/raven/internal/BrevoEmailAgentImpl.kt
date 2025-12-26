@@ -4,30 +4,25 @@ import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsText
-import koncurrent.Later
-import koncurrent.later
-import koncurrent.later.await
-import koncurrent.awaited.catch
-import koncurrent.awaited.then
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonPrimitive
+import raven.Address
+import raven.BrevoEmailAgentException
 import raven.BrevoOptions
 import raven.EmailAgent
-import raven.Address
-import raven.SendEmailParams
 import raven.EmailContentType
-import raven.BrevoEmailAgentException
+import raven.SendEmailParams
 
 @PublishedApi
 internal class BrevoEmailAgentImpl(
     private val options: BrevoOptions,
 ) : EmailAgent {
 
-    override fun canSend(count: Int): Later<Boolean> = credit().then { it > count }.catch { false }
+    override suspend fun canSend(count: Int): Boolean = credit() >= count
 
-    override fun credit(): Later<Int> = options.scope.later {
+    override suspend fun credit(): Int {
         val json = options.http.get(options.endpoint.account) {
             headers(options)
         }.bodyAsText()
@@ -42,15 +37,15 @@ internal class BrevoEmailAgentImpl(
             message = "Couldn't obtain plan information, there is a change you moved from a free plan to a paid plan just check with Brevo"
         )
 
-        email["credits"]?.jsonPrimitive?.intOrNull ?: throw BrevoEmailAgentException(
+        return email["credits"]?.jsonPrimitive?.intOrNull ?: throw BrevoEmailAgentException(
             message = "Could not get credit information even though ${email["type"]?.jsonPrimitive?.content} plan was deduced"
         )
     }
 
     override fun supports(body: EmailContentType): Boolean = true
 
-    override fun send(params: SendEmailParams): Later<SendEmailParams> = options.scope.later {
-        var credit = credit().await()
+    override suspend fun send(params: SendEmailParams): SendEmailParams {
+        var credit = credit()
         val warning = options.warning
         if (credit > warning.to.size && credit <= warning.limit && warning.to.isNotEmpty()) {
             val p = SendEmailParams(
@@ -59,17 +54,17 @@ internal class BrevoEmailAgentImpl(
                 subject = "Brevo email credit below ${warning.limit}",
                 body = warning.message(credit)
             )
-            execute(p).await()
+            execute(p)
             credit--
         }
 
         if (credit <= params.to.size) {
             throw BrevoEmailAgentException("Out of credit, hence we can't send ${params.to.size} emails on a $credit credit")
         }
-        execute(params).await()
+        return execute(params)
     }
 
-    private fun execute(params: SendEmailParams) = options.scope.later {
+    private suspend fun execute(params: SendEmailParams): SendEmailParams {
         val serializer = JsonObject.serializer()
         val json = options.http.post(options.endpoint.sms) {
             headers(options)
@@ -79,6 +74,6 @@ internal class BrevoEmailAgentImpl(
         if (resp["messageId"] == null) {
             throw BrevoEmailAgentException(resp["message"]?.jsonPrimitive?.content)
         }
-        options.outbox?.store(params)?.await() ?: params
+        return options.outbox?.store(params) ?: params
     }
 }

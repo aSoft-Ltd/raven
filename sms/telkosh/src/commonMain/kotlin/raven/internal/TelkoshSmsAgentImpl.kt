@@ -4,13 +4,6 @@ import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsText
-import io.ktor.http.encodeURLPath
-import io.ktor.util.encodeBase64
-import koncurrent.Later
-import koncurrent.later
-import koncurrent.later.await
-import koncurrent.awaited.catch
-import koncurrent.awaited.then
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonPrimitive
@@ -30,10 +23,10 @@ internal class TelkoshSmsAgentImpl(private val options: TelkoshOptions) : SmsAge
         "pwd" to password
     )
 
-    override fun credit(): Later<Int> = options.scope.later {
+    override suspend fun credit(): Int {
         val url = options.endpoint.balance + "?" + options.toParams().asQuery()
         println(url)
-        return@later 100
+        return 100
         val json = options.http.get(url) {
             headers()
         }.bodyAsText()
@@ -41,13 +34,13 @@ internal class TelkoshSmsAgentImpl(private val options: TelkoshOptions) : SmsAge
         println(json)
         val data = options.codec.decodeFromString(JsonObject.serializer(), json).ensureSuccess()
 
-        data["totalSms"]?.jsonPrimitive?.intOrNull ?: throw TelkoshSmsAgentException(
+        return data["totalSms"]?.jsonPrimitive?.intOrNull ?: throw TelkoshSmsAgentException(
             message = "Couldn't retrieve data.totalSms information even though the data was found"
         )
     }
 
-    override fun send(params: SendSmsParams): Later<SendSmsParams> = options.scope.later {
-        var credit = credit().await()
+    override suspend fun send(params: SendSmsParams): SendSmsParams {
+        var credit = credit()
         val warning = options.warning
         if (credit > warning.to.size && credit <= options.warning.limit && warning.to.isNotEmpty()) {
             val p = SendSmsParams(
@@ -55,14 +48,14 @@ internal class TelkoshSmsAgentImpl(private val options: TelkoshOptions) : SmsAge
                 to = options.warning.to,
                 body = options.warning.message(credit)
             )
-            execute(p).await()
+            execute(p)
             credit--
         }
 
         if (credit < params.to.size) {
             throw TelkoshSmsAgentException("Running low on credit, can't send ${params.to.size} messages with a $credit credit")
         }
-        execute(params).await()
+        return execute(params)
     }
 
     private fun SendSmsParams.toMap() = options.toParams() + mapOf(
@@ -73,7 +66,7 @@ internal class TelkoshSmsAgentImpl(private val options: TelkoshOptions) : SmsAge
 //        "smstype" to 0
     )
 
-    private fun execute(params: SendSmsParams): Later<SendSmsParams> = options.scope.later {
+    private suspend fun execute(params: SendSmsParams): SendSmsParams {
         val serializer = JsonObject.serializer()
 //        val url = options.endpoint.message + "?" + params.toMap().asQuery().encodeURLPath()
 //        val url = options.endpoint.message + "?" + params.toMap().asQuery()
@@ -94,8 +87,8 @@ internal class TelkoshSmsAgentImpl(private val options: TelkoshOptions) : SmsAge
         println(json)
         println("==================")
         options.codec.decodeFromString(serializer, json).ensureSuccess()
-        options.outbox?.store(params)?.await() ?: params
+        return options.outbox?.store(params) ?: params
     }
 
-    override fun canSend(count: Int) = credit().then { it > count }.catch { false }
+    override suspend fun canSend(count: Int) = credit() >= count
 }

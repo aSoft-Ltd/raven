@@ -7,14 +7,6 @@ import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.utils.io.ByteChannel
-import io.ktor.utils.io.readBuffer
-import io.ktor.utils.io.readText
-import koncurrent.Later
-import koncurrent.later
-import koncurrent.later.await
-import koncurrent.awaited.catch
-import koncurrent.awaited.then
-import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonPrimitive
@@ -30,9 +22,9 @@ internal class MailgunEmailAgentImpl(
     private val options: MailgunOptions,
 ) : EmailAgent {
 
-    override fun canSend(count: Int): Later<Boolean> = credit().then { it > count }.catch { false }
+    override suspend fun canSend(count: Int): Boolean = credit() >= count
 
-    override fun credit(): Later<Int> = options.scope.later {
+    override suspend fun credit(): Int {
         val json = options.http.get(options.endpoint.account()) {
             headers(options)
         }.bodyAsText()
@@ -40,7 +32,7 @@ internal class MailgunEmailAgentImpl(
         val limit = resp["limit"]?.jsonPrimitive?.intOrNull ?: throw MailgunEmailAgentException("Limit not set. Visit https://app.mailgun.com/app/account/settings to set limit")
         val current = resp["current"]?.jsonPrimitive?.intOrNull ?: throw MailgunEmailAgentException("Limit not set. Visit https://app.mailgun.com/app/account/settings to set limit")
 
-        limit - current
+        return limit - current
     }
 
     private fun JsonObject.ensureNoError(): JsonObject {
@@ -58,23 +50,23 @@ internal class MailgunEmailAgentImpl(
         body = options.warning.message(credit)
     )
 
-    override fun send(params: SendEmailParams): Later<SendEmailParams> = options.scope.later {
-        var credit = credit().await()
+    override suspend fun send(params: SendEmailParams): SendEmailParams {
+        var credit = credit()
         val warning = options.warning
         if (credit > warning.to.size && credit <= warning.limit && warning.to.isNotEmpty()) {
-            execute(params.toWarningParams(credit)).await()
+            execute(params.toWarningParams(credit))
             credit--
         }
 
         if (credit <= params.to.size) {
             throw MailgunEmailAgentException("Out of credit, hence we can't send ${params.to.size} emails on a $credit credit")
         }
-        execute(params).await()
+        return execute(params)
     }
 
     private fun SendEmailParams.domain() = from.email.split("@")[1]
 
-    private fun execute(params: SendEmailParams) = options.scope.later {
+    private suspend fun execute(params: SendEmailParams): SendEmailParams {
         val serializer = JsonObject.serializer()
         val json = options.http.post(options.endpoint.email(params.domain())) {
             accept(ContentType.MultiPart.FormData)
@@ -82,18 +74,13 @@ internal class MailgunEmailAgentImpl(
 //            val data = params.toMultiPartFormData()
             val data = params.toGptMultiPartFormData()
             val reader = ByteChannel()
-            launch {
-                data.writeTo(reader)
-            }
-            launch {
-                println(reader.readBuffer().readText())
-            }
+            data.writeTo(reader)
             setBody(data)
         }.bodyAsText()
         val resp = options.codec.decodeFromString(serializer, json).ensureNoError()
         if (resp["id"] == null) {
             throw MailgunEmailAgentException(resp["message"]?.jsonPrimitive?.content)
         }
-        options.outbox?.store(params)?.await() ?: params
+        return options.outbox?.store(params) ?: params
     }
 }

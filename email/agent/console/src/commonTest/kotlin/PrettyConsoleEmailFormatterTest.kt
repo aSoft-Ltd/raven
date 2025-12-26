@@ -1,5 +1,4 @@
 import kommander.expect
-import koncurrent.later.await
 import kotlinx.coroutines.test.runTest
 import raven.Address
 import kotlin.test.Test
@@ -19,7 +18,7 @@ class PrettyConsoleEmailFormatterTest {
             to = "to@gmail.com",
             body = "This is a test email"
         )
-        val message = sender.send(params).await()
+        val message = sender.send(params)
         expect(message).toBeNonNull()
     }
 
@@ -31,7 +30,7 @@ class PrettyConsoleEmailFormatterTest {
             subject = "This is a test draft",
             body = "This is a test email",
         )
-        val message = sender.send(params).await()
+        val message = sender.send(params)
         expect(message).toBeNonNull()
     }
 
@@ -50,7 +49,7 @@ class PrettyConsoleEmailFormatterTest {
             body = "When you decide to do something, make sure you do it well and make sure you look good doing it\n" +
                     "It not only makes thr whole thing wow, but even people watching you do enjoy"
         )
-        sender.send(params).await()
+        sender.send(params)
     }
 
     @Test
@@ -79,6 +78,6 @@ class PrettyConsoleEmailFormatterTest {
                     "It not only makes thr whole thing wow, but even people watching you do enjoy",
         )
 
-        sender.send(params).await()
+        sender.send(params)
     }
 }

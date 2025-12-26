@@ -18,7 +18,6 @@ kotlin {
         commonMain.dependencies {
             api(projects.ravenSmsCore)
             api(libs.kommander.coroutines)
-            api(libs.koncurrent.later.coroutines)
         }
 
         if (Targeting.JVM) jvmMain.dependencies {

@@ -2,7 +2,6 @@ package raven
 
 import kommander.expect
 import kommander.toBeGreaterThan
-import koncurrent.later.await
 import kotlin.test.Test
 import kotlinx.coroutines.test.runTest
 
@@ -18,12 +17,12 @@ abstract class AbstractSmsAgentTest(
 //            to = "+255752270749",
             body = "Hello Rachel, congratulations on your schools performance"
         )
-        agent.send(params).await()
+        agent.send(params)
     }
 
     @Test
     fun should_be_able_to_get_remaining_credit() = runTest {
-        val credit = agent.credit().await()
+        val credit = agent.credit()
         expect(credit).toBeGreaterThan(0)
     }
 }

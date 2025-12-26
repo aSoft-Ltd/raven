@@ -1,18 +1,16 @@
 package raven
 
-import koncurrent.Later
-import koncurrent.awaited.finally
-import koncurrent.toLater
-
 class ConsoleSmsAgent(
     private val options: ConsoleSmsAgentOptions = ConsoleSmsAgentOptions()
 ) : SmsAgent {
 
-    override fun send(params: SendSmsParams) = (options.outbox?.store(params) ?: params.toLater()).finally {
+    override suspend fun send(params: SendSmsParams): SendSmsParams {
+        val p = options.outbox?.store(params) ?: params
         println(options.formatter.format(params))
+        return p
     }
 
-    override fun credit(): Later<Int> = Int.MAX_VALUE.toLater()
+    override suspend fun credit(): Int = Int.MAX_VALUE
 
-    override fun canSend(count: Int): Later<Boolean> = Later(true)
+    override suspend fun canSend(count: Int): Boolean = true
 }

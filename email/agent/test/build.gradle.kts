@@ -19,7 +19,6 @@ kotlin {
             api(projects.ravenEmailAgentCore)
             api(projects.ravenEmailMarkup)
             api(libs.kommander.coroutines)
-            api(libs.koncurrent.later.coroutines)
         }
 
         if (Targeting.JVM) jvmMain.dependencies {

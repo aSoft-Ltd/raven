@@ -1,11 +1,9 @@
 package raven
 
-import koncurrent.Later
-
 interface Outbox<P> {
-    fun store(params: P): Later<P>
+    suspend fun store(params: P): P
 
-    fun sent(to: String): Later<List<P>>
+    suspend fun sent(to: String): List<P>
 
-    fun delete(receiver: String): Later<List<P>>
+    suspend fun delete(receiver: String): List<P>
 }

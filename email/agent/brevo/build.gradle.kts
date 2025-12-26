@@ -22,7 +22,6 @@ kotlin {
             api(projects.ravenOutboxCore)
             api(kotlinx.serialization.json)
             api(ktor.client.core)
-            implementation(libs.koncurrent.later.coroutines)
             implementation(projects.ravenConfig)
         }
 

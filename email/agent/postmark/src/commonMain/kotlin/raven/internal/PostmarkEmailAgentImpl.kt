@@ -5,11 +5,6 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
-import koncurrent.Later
-import koncurrent.later
-import koncurrent.later.await
-import koncurrent.awaited.catch
-import koncurrent.awaited.then
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonPrimitive
@@ -25,9 +20,9 @@ internal class PostmarkEmailAgentImpl(
     private val options: PostmarkOptions,
 ) : EmailAgent {
 
-    override fun canSend(count: Int): Later<Boolean> = credit().then { it > count }.catch { false }
+    override suspend fun canSend(count: Int): Boolean = credit() > count
 
-    override fun credit(): Later<Int> = options.scope.later {
+    override suspend fun credit(): Int {
 //        val json = options.http.get(options.endpoint.account()) {
 //            headers(options)
 //        }.bodyAsText()
@@ -36,7 +31,7 @@ internal class PostmarkEmailAgentImpl(
 //        val current = resp["current"]?.jsonPrimitive?.intOrNull ?: throw PostmarkEmailAgentException("Limit not set. Visit https://app.mailgun.com/app/account/settings to set limit")
 //
 //        limit - current
-        1000
+        return 1000
     }
 
     private fun JsonObject.ensureNoError(): JsonObject {
@@ -54,21 +49,21 @@ internal class PostmarkEmailAgentImpl(
         body = options.warning.message(credit)
     )
 
-    override fun send(params: SendEmailParams): Later<SendEmailParams> = options.scope.later {
-        var credit = credit().await()
+    override suspend fun send(params: SendEmailParams): SendEmailParams {
+        var credit = credit()
         val warning = options.warning
         if (credit > warning.to.size && credit <= warning.limit && warning.to.isNotEmpty()) {
-            execute(params.toWarningParams(credit)).await()
+            execute(params.toWarningParams(credit))
             credit--
         }
 
         if (credit <= params.to.size) {
             throw PostmarkEmailAgentException("Out of credit, hence we can't send ${params.to.size} emails on a $credit credit")
         }
-        execute(params).await()
+        return execute(params)
     }
 
-    private fun execute(params: SendEmailParams) = options.scope.later {
+    private suspend fun execute(params: SendEmailParams) : SendEmailParams {
         val serializer = JsonObject.serializer()
         val json = options.http.post(options.endpoint.email()) {
             accept(ContentType.MultiPart.FormData)
@@ -81,6 +76,6 @@ internal class PostmarkEmailAgentImpl(
         if (resp["ErrorCode"]?.jsonPrimitive?.intOrNull != 0) {
             throw PostmarkEmailAgentException(resp["Message"]?.jsonPrimitive?.content)
         }
-        options.outbox?.store(params)?.await() ?: params
+        return options.outbox?.store(params) ?: params
     }
 }

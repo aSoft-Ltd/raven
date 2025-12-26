@@ -1,11 +1,9 @@
 package raven
 
-import koncurrent.Later
-
 interface Sender<P> {
-    fun credit(): Later<Int>
+    suspend fun credit(): Int
 
-    fun canSend(count: Int): Later<Boolean>
+    suspend fun canSend(count: Int): Boolean
 
-    fun send(params: P): Later<P>
+    suspend fun send(params: P): P
 }

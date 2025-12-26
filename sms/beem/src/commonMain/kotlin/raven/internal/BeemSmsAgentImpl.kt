@@ -1,19 +1,13 @@
 package raven.internal
 
-import koncurrent.Later
-import koncurrent.TODOLater
-import koncurrent.later
-import koncurrent.later.await
-import koncurrent.awaited.catch
-import koncurrent.awaited.then
 import raven.BeemOptions
 import raven.BeemSmsServiceException
 import raven.SendSmsParams
 import raven.SmsAgent
 
 internal class BeemSmsAgentImpl(private val options: BeemOptions) : SmsAgent {
-    override fun send(params: SendSmsParams): Later<SendSmsParams> = options.scope.later {
-        var credit = credit().await()
+    override suspend fun send(params: SendSmsParams): SendSmsParams {
+        var credit = credit()
         val warning = options.warning
         if (credit > warning.to.size && credit <= options.warning.limit && warning.to.isNotEmpty()) {
             val p = SendSmsParams(
@@ -21,21 +15,19 @@ internal class BeemSmsAgentImpl(private val options: BeemOptions) : SmsAgent {
                 to = options.warning.to,
                 body = options.warning.message(credit)
             )
-            execute(p).await()
+            execute(p)
             credit--
         }
 
         if (credit < params.to.size) {
             throw BeemSmsServiceException("Running low on credit, can't send ${params.to.size} messages with a $credit credit")
         }
-        execute(params).await()
+        return execute(params)
     }
 
-    override fun credit(): Later<Int> {
-        return TODOLater()
-    }
+    override suspend fun credit(): Int = TODO()
 
-    private fun execute(params: SendSmsParams): Later<SendSmsParams> = TODOLater()
+    private suspend fun execute(params: SendSmsParams): SendSmsParams = TODO()
 
-    override fun canSend(count: Int) = credit().then { it > count }.catch { false }
+    override suspend fun canSend(count: Int) = credit() >= count
 }

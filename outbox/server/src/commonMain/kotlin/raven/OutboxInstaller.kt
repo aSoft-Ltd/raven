@@ -15,14 +15,14 @@ fun <P> Route.installOutbox(controller: OutboxController<P>?) {
     post(controller.endpoint.store()) {
         val json = call.receiveText()
         val params = controller.codec.decodeFromString(controller.serializer, json)
-        val result = controller.service.store(params).await()
+        val result = controller.service.store(params)
         controller.codec.encodeToString(controller.serializer, result)
     }
 
     get(controller.endpoint.sent("{to}")) {
         val to: String by call.pathParameters
         val messages = try {
-            controller.service.sent(to).await()
+            controller.service.sent(to)
         } catch (err: Throwable) {
             emptyList()
         }
@@ -33,7 +33,7 @@ fun <P> Route.installOutbox(controller: OutboxController<P>?) {
     delete(controller.endpoint.delete("{receiver}")) {
         val receiver: String by call.pathParameters
         val messages = try {
-            controller.service.delete(receiver).await()
+            controller.service.delete(receiver)
         } catch (err: Throwable) {
             emptyList()
         }

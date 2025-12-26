@@ -59,9 +59,9 @@ class OutboxServerClientTest {
 //                subject = "Test Email",
 //                body = "This is a test email to the server"
 //            )
-//            service.agents.email.send(message).await()
+//            service.agents.email.send(message)
 //
-//            expect(outbox.sent("receiver@test.com").await()).toBeOfSize(1)
+//            expect(outbox.sent("receiver@test.com")).toBeOfSize(1)
 //        }
 
         val sms = controller.sms
@@ -81,9 +81,9 @@ class OutboxServerClientTest {
                 to = destination,
                 body = "This is a test sms to Isaka"
             )
-            service.agents.sms.send(message).await()
+            service.agents.sms.send(message)
 
-            expect(outbox.sent(destination).await()).toBeOfSize(1)
+            expect(outbox.sent(destination)).toBeOfSize(1)
         }
     }
 }

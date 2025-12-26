@@ -4,7 +4,6 @@ package raven
 
 import kommander.expect
 import kommander.toBeGreaterThan
-import koncurrent.later.await
 import kotlinx.coroutines.test.runTest
 import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlin.random.Random
@@ -61,12 +60,12 @@ abstract class AbstractEmailAgentTest(
             ),
             body = body.toHtmlString()
         )
-        agent.send(params).await()
+        agent.send(params)
     }
 
     @Test
     fun should_be_able_to_get_remaining_credit() = runTest {
-        val credit = agent.credit().await()
+        val credit = agent.credit()
         println("Credit: $credit")
         expect(credit).toBeGreaterThan(0)
     }
