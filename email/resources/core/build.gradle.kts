@@ -15,7 +15,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(libs.koncurrent.later.core)
+            api(kotlinx.coroutines.core)
         }
     }
 }

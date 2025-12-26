@@ -43,7 +43,7 @@ internal suspend fun SendEmailParams.toJson() = buildJsonObject {
 
 private suspend fun JsonObjectBuilder.put(resource: EmbeddedResource) {
     put("Name", JsonPrimitive(resource.name))
-    put("Content", JsonPrimitive(Base64.encode(resource.read().await())))
+    put("Content", JsonPrimitive(Base64.encode(resource.read())))
     put("ContentType", JsonPrimitive(resource.type))
 }
 

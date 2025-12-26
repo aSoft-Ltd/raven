@@ -16,7 +16,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.ravenEmailResourcesCore)
-            api(libs.epsilon.core)
+            api(libs.kiota.file.manager.core)
         }
     }
 }

@@ -35,7 +35,7 @@ internal fun HttpRequestBuilder.headers(options: MailgunOptions) = headers {
 }
 
 private suspend fun EmbeddedResource.toInlinePartData(): PartData {
-    val data = read().await()
+    val data = read()
     return PartData.BinaryItem(
         provider = { ByteReadPacket(data) },
         dispose = {},
@@ -49,7 +49,7 @@ private suspend fun EmbeddedResource.toInlinePartData(): PartData {
 }
 
 private suspend fun EmbeddedResource.toAttachmentPartData(): PartData {
-    val data = read().await()
+    val data = read()
     return PartData.FileItem(
         provider = { ByteReadChannel(data) },
         dispose = {},
@@ -75,7 +75,7 @@ private fun MultiPartMixedContent(parts: List<PartData>): MultiPartFormDataConte
 
 private suspend fun EmbeddedResource.toJson(name: String) = mapOf(
     "name" to name,
-    "content" to Base64.encode(read().await()),
+    "content" to Base64.encode(read()),
     "filename" to this.name
 ).entries.joinToString(";", prefix = "{", postfix = "}") { (key, value) -> """"$key": "$value"""" }
 
@@ -83,7 +83,7 @@ internal suspend fun SendEmailParams.toGptMultiPartFormData(): MultiPartFormData
     val others = multipart {
         for (resource in inline) append(
             key = "inline",
-            value = resource.read().await(),
+            value = resource.read(),
             headers = Headers.build {
                 append(HttpHeaders.ContentDisposition, "inline")
                 append(HttpHeaders.ContentType, resource.type)
@@ -92,7 +92,7 @@ internal suspend fun SendEmailParams.toGptMultiPartFormData(): MultiPartFormData
         )
         for (attachment in attachments) append(
             key = "attachment",
-            value = attachment.read().await(),
+            value = attachment.read(),
             headers = Headers.build {
                 append(HttpHeaders.ContentDisposition, """attachment; filename="${attachment.name}"""")
                 append(HttpHeaders.ContentType, attachment.type)
@@ -119,7 +119,7 @@ internal suspend fun SendEmailParams.toGptMultiPartFormData(): MultiPartFormData
 }
 
 private suspend fun MutableList<PartData>.appendAttachment(attachment: EmbeddedResource) {
-    val data = attachment.read().await()
+    val data = attachment.read()
     add(PartData.FormItem(
         value = Base64.encode(data),
 //        provider = { ByteReadChannel(data) },

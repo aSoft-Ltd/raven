@@ -1,14 +1,12 @@
 package raven
 
-import koncurrent.Later
-
 class ByteArrayResource(
     override val name: String,
     override val type: String,
     override val id: String = name,
-    private val content: () -> ByteArray
+    private val content: suspend () -> ByteArray
 ) : EmbeddedResource {
-    override fun read() = Later(content())
+    override suspend fun read() = content()
 
     fun copy(
         name: String = this.name,

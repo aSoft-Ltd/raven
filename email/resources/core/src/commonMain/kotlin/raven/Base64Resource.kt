@@ -1,8 +1,6 @@
 package raven
 
-import koncurrent.Later
 import kotlin.io.encoding.Base64
-import kotlin.io.encoding.ExperimentalEncodingApi
 
 class Base64Resource(
     override val name: String,
@@ -11,8 +9,7 @@ class Base64Resource(
     private val content: () -> String
 ) : EmbeddedResource {
 
-    @OptIn(ExperimentalEncodingApi::class)
-    override fun read() = Later(Base64.decode(content()))
+    override suspend fun read() = Base64.decode(content())
 
     fun copy(
         name: String = this.name,
