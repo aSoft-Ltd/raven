@@ -1,6 +1,5 @@
 import io.ktor.server.testing.testApplication
 import kommander.expect
-import koncurrent.later.await
 import kotlin.test.Test
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob

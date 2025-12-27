@@ -14,7 +14,7 @@ fun includeSubs(base: String, path: String = base, vararg subs: String) {
 }
 
 listOf(
-    "kommander"
+    "kommander", "kotlinx-interoperable", "kiota"
 ).forEach { includeBuild("../$it") }
 
 rootProject.name = "raven"

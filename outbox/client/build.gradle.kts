@@ -18,7 +18,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(projects.ravenOutboxCore)
-                api(libs.koncurrent.later.coroutines)
                 api(ktor.client.core)
             }
         }

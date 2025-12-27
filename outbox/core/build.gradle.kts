@@ -13,10 +13,4 @@ kotlin {
     if (Targeting.OSX) osxTargets()
     if (Targeting.LINUX) linuxTargets()
 // if (Targeting.MINGW) mingwTargets()
-
-    sourceSets {
-        commonMain.dependencies {
-            api(libs.koncurrent.later.core)
-        }
-    }
 }

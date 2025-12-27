@@ -15,7 +15,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.ravenOutboxCore)
-            api(libs.koncurrent.later.coroutines)
             api(ktor.server.core)
         }
     }

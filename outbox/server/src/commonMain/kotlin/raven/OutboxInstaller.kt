@@ -7,7 +7,6 @@ import io.ktor.server.routing.delete
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.util.getValue
-import koncurrent.later.await
 import kotlinx.serialization.builtins.ListSerializer
 
 fun <P> Route.installOutbox(controller: OutboxController<P>?) {
